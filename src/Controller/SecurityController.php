@@ -12,9 +12,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) { // cet conditions recuper l'utilisateur connecté et verifie si il y a un utilisateur de connecté c'est une securité pour la personne ce connect avec un seul compte via le mail
+            return $this->redirectToRoute('app_profile');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
