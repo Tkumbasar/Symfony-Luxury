@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,8 +19,7 @@ class Candidat
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $user = null;
 
-    #[ORM\Column]
-    private ?int $gender = null;
+   
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
@@ -34,15 +35,6 @@ class Candidat
 
     #[ORM\Column(length: 255)]
     private ?string $nationality = null;
-
-    #[ORM\Column]
-    private ?int $passport = null;
-
-    #[ORM\Column]
-    private ?int $cv = null;
-
-    #[ORM\Column]
-    private ?int $profilPic = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $birthdate = null;
@@ -74,6 +66,32 @@ class Candidat
     #[ORM\Column]
     private ?bool $isAvailable = null;
 
+    #[ORM\OneToMany(targetEntity: Apply::class, mappedBy: 'Candidat', orphanRemoval: true)]
+    private Collection $applies;
+
+    #[ORM\ManyToOne(inversedBy: 'candidats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Experience $Experience = null;
+
+    #[ORM\ManyToOne(inversedBy: 'candidats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Gender $Gender = null;
+
+    #[ORM\OneToOne(mappedBy: 'url', cascade: ['persist', 'remove'])]
+    private ?Media $Passport = null;
+
+    #[ORM\OneToOne(mappedBy: 'name', cascade: ['persist', 'remove'])]
+    private ?Media $cv = null;
+
+    #[ORM\OneToOne(inversedBy: 'Url', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Media $ProfilPic = null;
+
+    public function __construct()
+    {
+        $this->applies = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,18 +109,7 @@ class Candidat
         return $this;
     }
 
-    public function getGender(): ?int
-    {
-        return $this->gender;
-    }
-
-    public function setGender(int $gender): static
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
+    
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -163,41 +170,6 @@ class Candidat
         return $this;
     }
 
-    public function getPassport(): ?int
-    {
-        return $this->passport;
-    }
-
-    public function setPassport(int $passport): static
-    {
-        $this->passport = $passport;
-
-        return $this;
-    }
-
-    public function getCv(): ?int
-    {
-        return $this->cv;
-    }
-
-    public function setCv(int $cv): static
-    {
-        $this->cv = $cv;
-
-        return $this;
-    }
-
-    public function getProfilPic(): ?int
-    {
-        return $this->profilPic;
-    }
-
-    public function setProfilPic(int $profilPic): static
-    {
-        $this->profilPic = $profilPic;
-
-        return $this;
-    }
 
     public function getBirthdate(): ?\DateTimeInterface
     {
@@ -315,6 +287,94 @@ class Candidat
     public function setIsAvailable(bool $isAvailable): static
     {
         $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Apply>
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(Apply $apply): static
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies->add($apply);
+            $apply->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(Apply $apply): static
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getCandidat() === $this) {
+                $apply->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->Gender;
+    }
+
+    public function setGender(?Gender $Gender): static
+    {
+        $this->Gender = $Gender;
+
+        return $this;
+    }
+
+    public function getPassport(): ?Media
+    {
+        return $this->Passport;
+    }
+
+    public function setPassport(Media $Passport): static
+    {
+        // set the owning side of the relation if necessary
+        if ($Passport->getUrl() !== $this) {
+            $Passport->setUrl($this);
+        }
+
+        $this->Passport = $Passport;
+
+        return $this;
+    }
+
+    public function getCv(): ?Media
+    {
+        return $this->cv;
+    }
+
+    public function setCv(Media $cv): static
+    {
+        // set the owning side of the relation if necessary
+        if ($cv->getName() !== $this) {
+            $cv->setName($this);
+        }
+
+        $this->cv = $cv;
+
+        return $this;
+    }
+
+    public function getProfilPic(): ?Media
+    {
+        return $this->ProfilPic;
+    }
+
+    public function setProfilPic(Media $ProfilPic): static
+    {
+        $this->ProfilPic = $ProfilPic;
 
         return $this;
     }

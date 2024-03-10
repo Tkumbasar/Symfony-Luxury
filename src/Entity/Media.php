@@ -13,38 +13,47 @@ class Media
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $url = null;
+    #[ORM\OneToOne(inversedBy: 'Passport', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Candidat $url = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Candidat $name = null;
+
+    #[ORM\OneToOne(mappedBy: 'ProfilPic', cascade: ['persist', 'remove'])]
+    private ?Candidat $Url = null;
+
+   
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getUrl(): ?Candidat
     {
         return $this->url;
     }
 
-    public function setUrl(string $url): static
+    public function setUrl(Candidat $url): static
     {
         $this->url = $url;
 
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): ?Candidat
     {
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(Candidat $name): static
     {
         $this->name = $name;
 
         return $this;
     }
+
+   
 }

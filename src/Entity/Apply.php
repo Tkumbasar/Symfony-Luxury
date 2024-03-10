@@ -14,48 +14,27 @@ class Apply
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $candidat = null;
-
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $jobOffer = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adminNote = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $status = null;
+    #[ORM\ManyToOne(inversedBy: 'applies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Jobs $Jobs = null;
+
+    #[ORM\ManyToOne(inversedBy: 'applies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $Status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'applies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Candidat $Candidat = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCandidat(): ?string
-    {
-        return $this->candidat;
-    }
-
-    public function setCandidat(string $candidat): static
-    {
-        $this->candidat = $candidat;
-
-        return $this;
-    }
-
-    public function getJobOffer(): ?string
-    {
-        return $this->jobOffer;
-    }
-
-    public function setJobOffer(string $jobOffer): static
-    {
-        $this->jobOffer = $jobOffer;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -82,14 +61,40 @@ class Apply
         return $this;
     }
 
-    public function getStatus(): ?string
+    
+
+    public function getJobs(): ?Jobs
     {
-        return $this->status;
+        return $this->Jobs;
     }
 
-    public function setStatus(string $status): static
+    public function setJobs(?Jobs $Jobs): static
     {
-        $this->status = $status;
+        $this->Jobs = $Jobs;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(?Status $Status): static
+    {
+        $this->Status = $Status;
+
+        return $this;
+    }
+
+    public function getCandidat(): ?Candidat
+    {
+        return $this->Candidat;
+    }
+
+    public function setCandidat(?Candidat $Candidat): static
+    {
+        $this->Candidat = $Candidat;
 
         return $this;
     }

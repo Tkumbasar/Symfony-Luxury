@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JobsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,8 +19,7 @@ class Jobs
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $reference = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $compagny = null;
+    
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -29,14 +30,12 @@ class Jobs
     #[ORM\Column(length: 255)]
     private ?string $jobTitle = null;
 
-    #[ORM\Column]
-    private ?int $jobType = null;
+  
 
     #[ORM\Column(length: 255)]
     private ?string $location = null;
 
-    #[ORM\Column]
-    private ?int $jobCategory = null;
+    
 
     #[ORM\Column]
     private ?int $salary = null;
@@ -49,6 +48,26 @@ class Jobs
 
     #[ORM\Column]
     private ?bool $activated = null;
+
+    #[ORM\ManyToOne(inversedBy: 'jobs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Compagny $compagny = null;
+
+    #[ORM\ManyToOne(inversedBy: 'jobs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Jobtype $jobType = null;
+
+    #[ORM\OneToMany(targetEntity: Apply::class, mappedBy: 'Jobs', orphanRemoval: true)]
+    private Collection $applies;
+
+    #[ORM\ManyToOne(inversedBy: 'jobs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?JobCategory $JobCategory = null;
+
+    public function __construct()
+    {
+        $this->applies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -67,17 +86,7 @@ class Jobs
         return $this;
     }
 
-    public function getCompagny(): ?string
-    {
-        return $this->compagny;
-    }
-
-    public function setCompagny(string $compagny): static
-    {
-        $this->compagny = $compagny;
-
-        return $this;
-    }
+    
 
     public function getDescription(): ?string
     {
@@ -115,18 +124,7 @@ class Jobs
         return $this;
     }
 
-    public function getJobType(): ?int
-    {
-        return $this->jobType;
-    }
-
-    public function setJobType(int $jobType): static
-    {
-        $this->jobType = $jobType;
-
-        return $this;
-    }
-
+   
     public function getLocation(): ?string
     {
         return $this->location;
@@ -135,18 +133,6 @@ class Jobs
     public function setLocation(string $location): static
     {
         $this->location = $location;
-
-        return $this;
-    }
-
-    public function getJobCategory(): ?int
-    {
-        return $this->jobCategory;
-    }
-
-    public function setJobCategory(int $jobCategory): static
-    {
-        $this->jobCategory = $jobCategory;
 
         return $this;
     }
@@ -195,6 +181,72 @@ class Jobs
     public function setActivated(bool $activated): static
     {
         $this->activated = $activated;
+
+        return $this;
+    }
+
+    public function getCompagny(): ?Compagny
+    {
+        return $this->compagny;
+    }
+
+    public function setCompagny(?Compagny $compagny): static
+    {
+        $this->compagny = $compagny;
+
+        return $this;
+    }
+
+    public function getJobType(): ?Jobtype
+    {
+        return $this->jobType;
+    }
+
+    public function setJobType(?Jobtype $jobType): static
+    {
+        $this->jobType = $jobType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Apply>
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(Apply $apply): static
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies->add($apply);
+            $apply->setJobs($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(Apply $apply): static
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getJobs() === $this) {
+                $apply->setJobs(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getJobCategory(): ?JobCategory
+    {
+        return $this->JobCategory;
+    }
+
+    public function setJobCategory(?JobCategory $JobCategory): static
+    {
+        $this->JobCategory = $JobCategory;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompagnyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompagnyRepository::class)]
@@ -36,6 +38,14 @@ class Compagny
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToMany(targetEntity: Jobs::class, mappedBy: 'compagny', orphanRemoval: true)]
+    private Collection $jobs;
+
+    public function __construct()
+    {
+        $this->jobs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +144,36 @@ class Compagny
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Jobs>
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Jobs $job): static
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+            $job->setCompagny($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Jobs $job): static
+    {
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getCompagny() === $this) {
+                $job->setCompagny(null);
+            }
+        }
 
         return $this;
     }
