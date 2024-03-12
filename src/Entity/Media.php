@@ -13,47 +13,48 @@ class Media
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'Passport', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $url = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url = null;
 
-    #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $name = null;
-
-    #[ORM\OneToOne(mappedBy: 'ProfilPic', cascade: ['persist', 'remove'])]
-    private ?Candidat $Url = null;
-
-   
+    #[ORM\OneToOne(mappedBy: 'cv', cascade: ['persist', 'remove'])]
+    private ?Candidat $candidat = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?Candidat
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    public function setUrl(Candidat $url): static
+    public function setUrl(?string $url): static
     {
         $this->url = $url;
 
         return $this;
     }
 
-    public function getName(): ?Candidat
+    public function getCandidat(): ?Candidat
     {
-        return $this->name;
+        return $this->candidat;
     }
 
-    public function setName(Candidat $name): static
+    public function setCandidat(?Candidat $candidat): static
     {
-        $this->name = $name;
+        // unset the owning side of the relation if necessary
+        if ($candidat === null && $this->candidat !== null) {
+            $this->candidat->setCv(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($candidat !== null && $candidat->getCv() !== $this) {
+            $candidat->setCv($this);
+        }
+
+        $this->candidat = $candidat;
 
         return $this;
     }
-
-   
 }

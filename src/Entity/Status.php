@@ -25,6 +25,10 @@ class Status
     {
         $this->applies = new ArrayCollection();
     }
+    public function __toString()
+    {
+        return $this->applies;
+    }
 
     public function getId(): ?int
     {

@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\JobcategoryRepository;
+use App\Repository\JobCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: JobcategoryRepository::class)]
-class Jobcategory
+#[ORM\Entity(repositoryClass: JobCategoryRepository::class)]
+class JobCategory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,7 +24,14 @@ class Jobcategory
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
+
     }
+
+    public function __toString()
+    {
+        return $this->jobs;
+    }
+
 
     public function getId(): ?int
     {

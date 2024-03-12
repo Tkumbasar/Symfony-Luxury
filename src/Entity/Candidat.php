@@ -16,11 +16,6 @@ class Candidat
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $user = null;
-
-   
-
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
@@ -57,9 +52,6 @@ class Candidat
     #[ORM\Column]
     private ?int $jobCategory = null;
 
-    #[ORM\Column]
-    private ?int $experience = null;
-
     #[ORM\Column(length: 255)]
     private ?string $adminNote = null;
 
@@ -71,21 +63,27 @@ class Candidat
 
     #[ORM\ManyToOne(inversedBy: 'candidats')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Experience $Experience = null;
-
-    #[ORM\ManyToOne(inversedBy: 'candidats')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Gender $Gender = null;
 
-    #[ORM\OneToOne(mappedBy: 'url', cascade: ['persist', 'remove'])]
-    private ?Media $Passport = null;
+   
 
-    #[ORM\OneToOne(mappedBy: 'name', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?Media $cv = null;
 
-    #[ORM\OneToOne(inversedBy: 'Url', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
+    private ?Media $profilPic = null;
+
+    #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
+    private ?Media $passport = null;
+
+    #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Media $ProfilPic = null;
+    private ?Experience $experience = null;
+
 
     public function __construct()
     {
@@ -95,18 +93,6 @@ class Candidat
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): static
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     
@@ -255,17 +241,6 @@ class Candidat
         return $this;
     }
 
-    public function getExperience(): ?int
-    {
-        return $this->experience;
-    }
-
-    public function setExperience(int $experience): static
-    {
-        $this->experience = $experience;
-
-        return $this;
-    }
 
     public function getAdminNote(): ?string
     {
@@ -333,19 +308,16 @@ class Candidat
         return $this;
     }
 
-    public function getPassport(): ?Media
+   
+
+    public function getUser(): ?User
     {
-        return $this->Passport;
+        return $this->user;
     }
 
-    public function setPassport(Media $Passport): static
+    public function setUser(User $user): static
     {
-        // set the owning side of the relation if necessary
-        if ($Passport->getUrl() !== $this) {
-            $Passport->setUrl($this);
-        }
-
-        $this->Passport = $Passport;
+        $this->user = $user;
 
         return $this;
     }
@@ -355,13 +327,8 @@ class Candidat
         return $this->cv;
     }
 
-    public function setCv(Media $cv): static
+    public function setCv(?Media $cv): static
     {
-        // set the owning side of the relation if necessary
-        if ($cv->getName() !== $this) {
-            $cv->setName($this);
-        }
-
         $this->cv = $cv;
 
         return $this;
@@ -369,13 +336,38 @@ class Candidat
 
     public function getProfilPic(): ?Media
     {
-        return $this->ProfilPic;
+        return $this->profilPic;
     }
 
-    public function setProfilPic(Media $ProfilPic): static
+    public function setProfilPic(?Media $profilPic): static
     {
-        $this->ProfilPic = $ProfilPic;
+        $this->profilPic = $profilPic;
 
         return $this;
     }
+
+    public function getPassport(): ?Media
+    {
+        return $this->passport;
+    }
+
+    public function setPassport(?Media $passport): static
+    {
+        $this->passport = $passport;
+
+        return $this;
+    }
+
+    public function getExperience(): ?Experience
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(Experience $experience): static
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
 }

@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Jobcategory;
+use App\Entity\JobCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Jobcategory>
+ * @extends ServiceEntityRepository<JobCategory>
  *
- * @method Jobcategory|null find($id, $lockMode = null, $lockVersion = null)
- * @method Jobcategory|null findOneBy(array $criteria, array $orderBy = null)
- * @method Jobcategory[]    findAll()
- * @method Jobcategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method JobCategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method JobCategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method JobCategory[]    findAll()
+ * @method JobCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class JobcategoryRepository extends ServiceEntityRepository
+class JobCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Jobcategory::class);
+        parent::__construct($registry, JobCategory::class);
     }
 
     //    /**
-    //     * @return Jobcategory[] Returns an array of Jobcategory objects
+    //     * @return JobCategory[] Returns an array of JobCategory objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class JobcategoryRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Jobcategory
+    //    public function findOneBySomeField($value): ?JobCategory
     //    {
     //        return $this->createQueryBuilder('j')
     //            ->andWhere('j.exampleField = :val')
