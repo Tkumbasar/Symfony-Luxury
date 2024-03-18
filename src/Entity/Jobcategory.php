@@ -29,7 +29,7 @@ class JobCategory
 
     public function __toString()
     {
-        return $this->jobs;
+        return $this->category;
     }
 
 

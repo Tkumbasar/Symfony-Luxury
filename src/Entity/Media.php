@@ -19,6 +19,11 @@ class Media
     #[ORM\OneToOne(mappedBy: 'cv', cascade: ['persist', 'remove'])]
     private ?Candidat $candidat = null;
 
+    public function __toString()
+    {   
+        return $this->candidat;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -26,10 +26,9 @@ class Jobtype
         $this->jobs = new ArrayCollection();
     }
 
-
     public function __toString()
     {
-        return $this->jobs;
+        return $this->type;
     }
 
 

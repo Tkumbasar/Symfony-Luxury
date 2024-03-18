@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobsRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -67,6 +68,14 @@ class Jobs
     public function __construct()
     {
         $this->applies = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function __toString()
+    {
+      return  $this->JobCategory;
+      return $this->createdAt;
+     
     }
 
     public function getId(): ?int
@@ -87,7 +96,6 @@ class Jobs
     }
 
     
-
     public function getDescription(): ?string
     {
         return $this->description;

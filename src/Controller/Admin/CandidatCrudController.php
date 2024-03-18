@@ -41,7 +41,7 @@ class CandidatCrudController extends AbstractCrudController
             IntegerField::new('jobCategory'),
             TextField::new('adminNote'),
             BooleanField::new('isAvailable'),
-            AssociationField::new('user'),
+            IntegerField::new('user'),
             AssociationField::new('cv'),
             AssociationField::new('profilPic'),
             AssociationField::new('passport'),

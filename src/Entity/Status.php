@@ -27,7 +27,7 @@ class Status
     }
     public function __toString()
     {
-        return $this->applies;
+        return $this->status;
     }
 
     public function getId(): ?int

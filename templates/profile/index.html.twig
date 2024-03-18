@@ -10,17 +10,22 @@
 {% endblock %}
 
 
+
+
+
+{% block body %}
+
+
+
+
 {% block styleprofile %}
  <style>
-        select {
+        select{
             display: block!important;
         }
 </style>
 
 {% endblock %}
-
-
-{% block body %}
 
 <div class="base">
 
@@ -35,7 +40,7 @@
                         <h2 class="white-text">Your profile</h2>
                         <span class="white-text">Personnal & Professionnal informations</span>
                         <ol class="breadcrumb">
-                            <li><a href="#!">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li class="active">Profile</li>
                         </ol>
                     </div>
@@ -50,7 +55,7 @@
                 <div class="row">
                     <div class="score-container">
                         <h4>
-                            <img src="https://i.imgur.com/s9bPVaK.gif" style="height: 80px; width: 201px;"> &nbsp;
+                            <img src="https://i.imgur.com/s9bPVaK.gif"  style="height: 80px; width: 201px;"> &nbsp;
                             &nbsp; Hooray ! Your profile is complete.
                         </h4>
                         <div class="c100 p100 small complete ">
@@ -66,7 +71,12 @@
             </div>
         </section>
 
-        <form method="POST" action="#!" accept-charset="UTF-8" id="candidateForm" role="form" data-parsley-validate="" enctype="multipart/form-data"><input name="_token" type="hidden" value="UYfchy67WuTVzhSstPK1RDZEIfgqpKCcLnLyhf8a">
+    
+    <form action="{{ path('app_profile') }}" method="POST" accept-charset="UTF-8" id="candidateForm" role="form" data-parsley-validate="" enctype="multipart/form-data"><input name="_token" type="hidden" value="UYfchy67WuTVzhSstPK1RDZEIfgqpKCcLnLyhf8a">
+        
+       {% for profile in profiles %}
+        
+       
             <section class="section-padding">
                 <div class="container">
                     <div class="row">
@@ -78,6 +88,7 @@
                                     <option value="male">Male</option>
                                     <option value="female" selected="selected">Female</option>
                                     <option value="transgender">Transgender</option>
+                                    <option value="poulet">Alexis-cochonne</option>
                                 </select>
                                 <label for="gender" class="active">Gender</label>
                             </div>
@@ -265,10 +276,12 @@
 
                 </div>
             </section>
+        {% endfor %}
         </form>
-
+    
     </div>
 
 </div>
+
 
 {% endblock %}

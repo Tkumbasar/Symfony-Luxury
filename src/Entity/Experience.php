@@ -25,8 +25,6 @@ class Experience
     }
 
 
-    
-
     public function getCandidat(): ?Candidat
     {
         return $this->candidat;

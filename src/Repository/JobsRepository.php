@@ -22,7 +22,7 @@ class JobsRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return Jobs[] Returns an array of Jobs objects
+    //      *@return Jobs[] Returns an array of Jobs objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -33,6 +33,7 @@ class JobsRepository extends ServiceEntityRepository
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
+ 
     //        ;
     //    }
 

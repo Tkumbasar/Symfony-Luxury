@@ -7,86 +7,6 @@
 <body id="top">
 
 
-    <!-- Navigation -->
-    <header id="header" class="tt-nav transparent-header ">
-        <div class="header-sticky semi-transparent">
-            <div class="container">
-
-                <div id="materialize-menu" class="menuzord">
-
-                    <a class="brand logo-brand" href="/"></a>
-                    <div id="mobile-menu">
-                        <div class="nav-wrapper" id="toggle">
-                            <span class="top"></span>
-                            <span class="middle"></span>
-                            <span class="bottom"></span>
-                        </div>
-                        <div class="icon-wrapper">
-                            <span class="account">
-                                <a href="/templates/auth/profile.html">
-                                    <i class="material-icons">&#xE7FD;</i>
-                                </a>
-                            </span>
-                        </div>
-                        <div class="nav-overlay" id="overlay">
-                            <nav class="overlay-menu">
-                                <ul>
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/templates/jobs/index.html">Jobs Offers</a></li>
-                                    <li><a href="/templates/compagny.html">About Us</a></li>
-                                    <li><a href="/templates/contact.html">Contact</a></li>
-                                    <li>-</li>
-                                    <li><a href="/templates/auth/profile.html">Profile</a></li>
-                                    <li><a href="/logout.html">Logout</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="menuzord-menu pull-right light" role="navigation">
-                            <li class=" dropdown">
-                                <a target="_self" href="/templates/auth/login.html">
-                                    <span>Login</span>
-                                </a>
-                            </li>
-                            <li class=" dropdown">
-                                <a target="_self" href="/templates/auth/register.html" class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
-                                    <span>Sign Up</span>
-                                </a>
-
-                            </li>
-                        </ul>
-                        <ul class="menuzord-menu pull-right light" role="navigation">
-                            <li class="active dropdown">
-                                <a target="_self" href="/">
-                                    <i class=""></i>
-                                    <span>Home</span>
-                                </a>
-                            </li>
-                            <li class=" dropdown">
-                                <a target="_self" href="/templates/jobs/index.html">
-                                    <i class=""></i>
-                                    <span>Jobs offers</span>
-                                </a>
-                            </li>
-                            <li class=" dropdown">
-                                <a target="_self" href="/templates/compagny.html">
-                                    <i class=""></i>
-                                    <span>About us</span>
-                                </a>
-                            </li>
-                            <li class=" dropdown">
-                                <a target="_self" href="/templates/contact.html">
-                                    <i class=""></i>
-                                    <span>Contact</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
     <div class="base">
 
         <!-- Page -->
@@ -126,118 +46,41 @@
                         </ul>
                         <div class="portfolio portfolio-with-title col-2 gutter mt-30">
 
+                          {% for job in jobs %}
+                                                    
                             <div class="portfolio-item" data-groups='["all", "commercial"]'>
                                 <div class="portfolio-wrapper">
                                     <div class="card job-card">
                                         <div class="card-content">
                                             <span class="title">
-                                                <span class="card-title">2nd assistant position</span>
-                                                <span class="ref grey-text">Ref. 1062</span>
+                                                <span class="card-title">
+                                                    {{ job.jobTitle }}    
+                                                </span>  
+                                                <span class="ref grey-text">
+                                                    {{ job.reference }}   
+                                                </span>
                                             </span>
                                             <div class="metas mb-20">
                                                 <div class="meta">
-                                                    <i class="material-icons">&#xE53E;</i>45k&euro;
+                                                    <i class="material-icons">&#xE53E;</i>{{ job.salary }}
                                                 </div>
                                                 <div class="meta">
-                                                    <i class="material-icons">&#xE916;</i>2018-10-01
+                                                    <i class="material-icons">&#xE916;</i>{{ job.createdAt|date('Y-m-d H:i:s')}}
                                                 </div>
                                                 <div class="meta">
-                                                    <i class="material-icons">&#xE55F;</i>Paris
+                                                    <i class="material-icons">&#xE55F;</i>{{ job.location }}
                                                 </div>
                                             </div>
-                                            <p class="truncate-text">Nulla interdum, erat et mollis eleifend, urna turpis pellentesque dolor, sed rhoncus erat est sit amet diam. Aliquam dignissim ipsum nec lorem pulvinar.</p>
+                                            <p class="truncate-text">{{ job.description }}</p>
                                         </div>
                                         <div class="card-action">
-                                            <a class="btn btn-md primary border waves-effect waves-dark" href="/jobs/show.html">Details</a>
+                                            <a class="btn btn-md primary border waves-effect waves-dark" href={{path ("app_jobs_show")}}>Details</a>
                                             <a class="btn btn-md primary waves-effect waves-light" href="#!">Apply</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="portfolio-item" data-groups='["all", "commercial"]'>
-                                <div class="portfolio-wrapper">
-                                    <div class="card job-card">
-                                        <div class="card-content">
-                                            <span class="title">
-                                                <span class="card-title">2nd assistant position</span>
-                                                <span class="ref grey-text">Ref. 1062</span>
-                                            </span>
-                                            <div class="metas mb-20">
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE53E;</i>45k&euro;
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE916;</i>2018-10-01
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE55F;</i>Paris
-                                                </div>
-                                            </div>
-                                            <p class="truncate-text">Nulla interdum, erat et mollis eleifend, urna turpis pellentesque dolor, sed rhoncus erat est sit amet diam. Aliquam dignissim ipsum nec lorem pulvinar.</p>
-                                        </div>
-                                        <div class="card-action">
-                                            <a class="btn btn-md primary border waves-effect waves-dark" href="/jobs/show.html">Details</a>
-                                            <a class="btn btn-md primary waves-effect waves-light" href="#!">Apply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-item" data-groups='["all", "commercial"]'>
-                                <div class="portfolio-wrapper">
-                                    <div class="card job-card">
-                                        <div class="card-content">
-                                            <span class="title">
-                                                <span class="card-title">2nd assistant position</span>
-                                                <span class="ref grey-text">Ref. 1062</span>
-                                            </span>
-                                            <div class="metas mb-20">
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE53E;</i>45k&euro;
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE916;</i>2018-10-01
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE55F;</i>Paris
-                                                </div>
-                                            </div>
-                                            <p class="truncate-text">Nulla interdum, erat et mollis eleifend, urna turpis pellentesque dolor, sed rhoncus erat est sit amet diam. Aliquam dignissim ipsum nec lorem pulvinar.</p>
-                                        </div>
-                                        <div class="card-action">
-                                            <a class="btn btn-md primary border waves-effect waves-dark" href="/jobs/show.html">Details</a>
-                                            <a class="btn btn-md primary waves-effect waves-light" href="#!">Apply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-item" data-groups='["all", "commercial"]'>
-                                <div class="portfolio-wrapper">
-                                    <div class="card job-card">
-                                        <div class="card-content">
-                                            <span class="title">
-                                                <span class="card-title">2nd assistant position</span>
-                                                <span class="ref grey-text">Ref. 1062</span>
-                                            </span>
-                                            <div class="metas mb-20">
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE53E;</i>45k&euro;
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE916;</i>2018-10-01
-                                                </div>
-                                                <div class="meta">
-                                                    <i class="material-icons">&#xE55F;</i>Paris
-                                                </div>
-                                            </div>
-                                            <p class="truncate-text">Nulla interdum, erat et mollis eleifend, urna turpis pellentesque dolor, sed rhoncus erat est sit amet diam. Aliquam dignissim ipsum nec lorem pulvinar.</p>
-                                        </div>
-                                        <div class="card-action">
-                                            <a class="btn btn-md primary border waves-effect waves-dark" href="/jobs/show.html">Details</a>
-                                            <a class="btn btn-md primary waves-effect waves-light" href="#!">Apply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        {% endfor %}
                             <div class="no-item"></div>
                         </div>
                     </div>
